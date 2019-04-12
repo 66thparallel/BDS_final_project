@@ -11,4 +11,4 @@ data2 = pd.read_csv('reviewContent.txt', sep="\t", header=None)
 data2.columns = ["userID","b", "date", "content"]
 result=data.set_index('userID').join(data2.set_index('userID'))
 result.columns = [ "rating", "lable", "prob_ID","date","content"]
-
+train, validate, test = np.split(result.sample(frac=1), [int(.6*len(result)), int(.8*len(result))])
