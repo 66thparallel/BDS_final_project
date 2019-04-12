@@ -4,6 +4,7 @@
 # In[17]:
 
 import pandas as pd
+import numpy as np
 data = pd.read_csv('metadata.txt', sep="\t", header=None)
 data.columns = ["userID","b", "rating", "lable", "date"]
 data=data.drop(['b', 'date'],axis=1)
