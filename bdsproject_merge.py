@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 import nltk
 from nltk.stem import WordNetLemmatizer
-from nltk.util import ngrams
 
 import re
 import string
@@ -14,16 +13,16 @@ import unittest
 from collections import Counter
 
 
-# data = pd.read_csv('metadata.txt', sep="\t", header=None)
-# data.columns = ["userID","b", "rating", "label", "date"]
-# data=data.drop(['b', 'date'],axis=1)
-# data2 = pd.read_csv('reviewContent.txt', sep="\t", header=None)
-# data2.columns = ["userID","b", "date", "content"]
-# result=data.set_index('userID').join(data2.set_index('userID'))
-# result.columns = [ "rating", "lable", "prob_ID","date","content"]
-# train, validate, test = np.split(result.sample(frac=1), [int(.6*len(result)), int(.8*len(result))])
+data = pd.read_csv('metadata.txt', sep="\t", header=None)
+data.columns = ["userID","b", "rating", "label", "date"]
+data=data.drop(['b', 'date'],axis=1)
+data2 = pd.read_csv('reviewContent.txt', sep="\t", header=None)
+data2.columns = ["userID","b", "date", "content"]
+result=data.set_index('userID').join(data2.set_index('userID'))
+result.columns = [ "rating", "lable", "prob_ID","date","content"]
+train, validate, test = np.split(result.sample(frac=1), [int(.6*len(result)), int(.8*len(result))])
 
-
+# Get the top 100 1-grams
 class Tokenizer:
     def __init__(self, text):
         self._text = text
