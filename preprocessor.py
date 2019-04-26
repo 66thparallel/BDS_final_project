@@ -85,13 +85,16 @@ class Preprocessor:
 class Unigrams:
     def __init__(self, topics):
         self._topics = topics
-        self._unigrams = {}
+        self._unigrams = []
 
     def get_top_unigrams(self):
         # Find the most frequently occuring unigrams
         word_freq = Counter(self._topics)
         common_words = word_freq.most_common(100)
-        self._unigrams = dict(common_words)
+        dict_unigrams = dict(common_words)
+
+        # convert dict to list for convenience
+        [self._unigrams.append(x) for x in dict_unigrams]
 
         return self._unigrams
 
@@ -109,10 +112,10 @@ class Bigrams:
         self._output = list(ngrams(self._topics, 2))
         word_freq = Counter(self._output)
         common_words = word_freq.most_common(100)
-        tempdict = dict(common_words)
-        tup2str = ""
+        dict_bigrams = dict(common_words)
 
-        for tup in tempdict:
+        tup2str = ""
+        for tup in dict_bigrams:
             for i in tup:
                 tup2str += i + " "
             tup2str = tup2str.strip()
@@ -120,3 +123,24 @@ class Bigrams:
             tup2str = ""
 
         return self._bigrams
+
+def ngram_print(unigrams, bigrams):
+
+    # print to command line
+    [print(uni, end=", ") for uni in unigrams]
+    print('\n')
+    [print(bi, end=", ") for bi in bigrams]
+    print('')
+
+    with open('ngrams.txt', 'w') as g:
+
+        # write the top 100 unigrams to ngrams.txt
+        for item in unigrams:
+            g.write(str(item))
+            g.write(', ')
+        g.write('\n\n')
+
+        # write the top 100 bigrams to ngrams.txt
+        for item in bigrams:
+            g.write(str(item))
+            g.write(', ')
