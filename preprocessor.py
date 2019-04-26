@@ -8,8 +8,7 @@ Classes:
     RemoveStopWords:
         Accepts a list of tokens and removes stop words
     Preprocessor:
-        Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Determines 1-grams and 2-grams. Generates
-        topics sorted by frequency and outputs results to the console and topics.txt.
+        Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Find the top 100 unigrams and bigrams.
 """
 
 import re
