@@ -8,7 +8,11 @@ Classes:
     RemoveStopWords:
         Accepts a list of tokens and removes stop words
     Preprocessor:
-        Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Find the top 100 unigrams and bigrams.
+        Calls Tokenizer, RemoveStopWords, and lemmatizes the text. Finds the top 100 unigrams and bigrams.
+    Unigrams:
+        Returns the top 100 unigrams and prints to the console and ngrams.txt.
+    Bigrams:
+        Returns the top 100 bigrams and prints to the console and ngrams.txt.
 """
 
 import re
