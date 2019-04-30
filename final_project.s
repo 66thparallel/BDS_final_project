@@ -7,13 +7,13 @@
 #SBATCH --mem=30GB
 #SBATCH --job-name=BDSFinalProject
 #SBATCH --mail-type=END
-#SBATCH --mail-user=[email address for notification]
+#SBATCH --mail-user=[email address]
 #SBATCH --output=slurm_%j.out
 
 module purge
 module load python3/intel/3.6.3
 
-cd /scratch/[net ID]/final_project
+cd /scratch/[netID]/final_project
 source venv/bin/activate
-python -u bdsproject_merge.py
+python -u main.py
 
