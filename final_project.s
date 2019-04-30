@@ -13,8 +13,7 @@
 module purge
 module load python3/intel/3.6.3
 
-cd /scratch/jl860/final_project
+cd /scratch/[net ID]/final_project
 source venv/bin/activate
 python -u bdsproject_merge.py
-
 
