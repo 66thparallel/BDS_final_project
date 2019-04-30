@@ -3,18 +3,18 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=2
-#SBATCH --time=6:00:00
-#SBATCH --mem=10GB
+#SBATCH --time=2:00:00
+#SBATCH --mem=30GB
 #SBATCH --job-name=BDSFinalProject
 #SBATCH --mail-type=END
-#SBATCH --mail-user=[your email address]
+#SBATCH --mail-user=[email address for notification]
 #SBATCH --output=slurm_%j.out
 
 module purge
 module load python3/intel/3.6.3
 
-cd /scratch/[net ID]/[final project folder]
+cd /scratch/jl860/final_project
 source venv/bin/activate
-python bdsproject_merge.py
+python -u bdsproject_merge.py
 
 
