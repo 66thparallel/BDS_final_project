@@ -16,6 +16,10 @@ class dataset:
     def __init__(self, txt1,txt2):
         self._txt1 = txt1
         self._txt2 = txt2
+        self._train=pd.DataFrame()
+        self._validate=pd.DataFrame()
+        self._test=pd.DataFrame()
+        
 
 
     def bdsproject_merge(self):
@@ -37,10 +41,13 @@ class dataset:
         result2=pd.concat([fakedata1,nfakerdata2],ignore_index=True)
         
         #split dataset to train, validate and test and save it as csv.
-        train, validate, test = np.split(result2.sample(frac=1), [int(.6*len(result2)), int(.8*len(result2))])
-        train.to_csv("train.csv")
-        validate.to_csv("validate.csv")
-        test.to_csv("test.csv")
+        self._train, self._validate, self._test = np.split(result2.sample(frac=1), [int(.6*len(result2)), int(.8*len(result2))])
+        
+        self._train.to_csv("train.csv")
+        self._validate.to_csv("validate.csv")
+        self._test.to_csv("test.csv")
+        
+        return self._train, self._validate, self._test
 
         
 
