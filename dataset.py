@@ -38,9 +38,9 @@ class dataset:
         
         #split dataset to train, validate and test and save it as csv.
         train, validate, test = np.split(result2.sample(frac=1), [int(.6*len(result2)), int(.8*len(result2))])
-        train.to_csv("train2.csv")
-        validate.to_csv("validate2.csv")
-        test.to_csv("test2.csv")
+        train.to_csv("train.csv")
+        validate.to_csv("validate.csv")
+        test.to_csv("test.csv")
 
         
 
