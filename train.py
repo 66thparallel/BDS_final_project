@@ -8,6 +8,7 @@ class Train:
         self._itopic= unigramtopics
         self._len = []
         self._topicf=[]
+        self._cols_to_keep=[]
 
     def Training(self):
         #read file and data cleaning
@@ -35,8 +36,11 @@ class Train:
         dummy_ranks = pd.get_dummies(train['rating'], prefix='rating')
         
         #data used to do the regression:
-        cols_to_keep=["label","length_of_review","good","bit","flavor","pretty","star","back","eat","time","table","ordered"]
-        data = train[cols_to_keep].join(dummy_ranks.ix[:, 'rating_2.0':])
+        self._cols_to_keep=["label","length_of_review"]
+        for elem in validate.content:
+            self._len.append(len(str(elem)))
+        
+        data = train[self._cols_to_keep].join(dummy_ranks.ix[:, 'rating_2.0':])
         
         #add intercept
         data['intercept'] = 1.0
