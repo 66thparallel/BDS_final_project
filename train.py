@@ -12,8 +12,7 @@ class Train:
 
     def Training(self):
         #read file and data cleaning
-        train = pd.read_csv(self._train)
-        train=train.dropna()
+        train=self._train.dropna()
         train=train[train['content']!="nan"]
         
         #add the feature to train's dataframe 
