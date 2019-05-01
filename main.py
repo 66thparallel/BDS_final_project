@@ -14,6 +14,6 @@ def main():
     vali=Validate("validate2.csv",topicf, result)
     vali.valid()
     
-    
+main()
     
     
