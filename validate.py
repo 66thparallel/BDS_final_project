@@ -13,8 +13,7 @@ class Validate:
 
     def valid(self):
         #read validation file and data cleaning
-        validate = pd.read_csv(self._val)
-        validate=validate.dropna()
+        validate=self._val.dropna()
         validate=validate[validate['content']!="nan"]
         
         #generate topic features:
