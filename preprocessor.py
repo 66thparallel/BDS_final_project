@@ -1,7 +1,7 @@
 # coding: utf-8
 # !/usr/bin/python3
 """
-Author: Jane Liu
+Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
     Tokenizer:
         Accepts a list of words and outputs tokenized text.

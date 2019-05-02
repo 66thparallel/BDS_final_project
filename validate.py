@@ -1,3 +1,9 @@
+# coding: utf-8
+# !/usr/bin/python3
+"""
+Authors: Jiajun Bao, Meng Li, Jane Liu
+"""
+
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
