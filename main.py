@@ -9,18 +9,26 @@ Classes:
 
 import numpy as np
 import pandas as pd
+from dataset import *
+from Train import *
+from Validate import *
 
 def main():
-
+    
+    #split the dataset to train, validate and test
     Prep = dataset('metadata.txt','reviewContent.txt')
     t,v,test=Prep.bdsproject_merge()
     
+    #read most frequent 100 topics
+    text_file = open("ngrams.txt", "r")
+    lines = text_file.read().split(", ")
+    unigramtopics=lines[:100]
     
-    unigramtopics=["place","sandwich", "salad", "good", "food", "Greek", "lamb", "lunch", "Snack", "great", "time", "service", "friend", "chicken", "small", "delicious", "eat", "soup", "back", "table", "restaurant", "dinner", "special", "ordered", "pretty", "bite", "recommend", "make", "huge", "quick", "perfect", "wall", "fresh", "tomato", "spot", "super", "tiny", "flavor", "cozy", "roasted", "big", "Soho", "wine", "price", "meal", "ingredient", "star", "bean", "light", "greek", "favorite", "pepper", "olive", "entree", "atmosphere", "bit", "hole", "gem", "hummus", "Great", "love", "tuna", "SoHo", "authentic", "fantastic", "souvlaki", "dish", "hard", "glass", "expect", "quaint", "review", "onion", "tasty", "cold", "winter", "avgolemono", "lemony", "butter", "feel", "fan", "juicy", "oil", "Chicken", "worth", "wait", "stuffed", "decided", "find", "people", "full", "Food", "Lamb", "Good", "orzo", "pastitsio", "cute", "die", "spinach", "pie"]
-    
+    #train the model
     Tra=Train(t,unigramtopics)
     data,topicf,result=Tra.Training()
     
+    #validate and print the result of confusion matrix
     vali=Validate(v, topicf, result)
     vali.valid()
     
