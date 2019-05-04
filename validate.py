@@ -68,22 +68,15 @@ class Validate:
         val['predict'] = self._result.predict(val[val_cols1])
         
                 
+        # if the value of predict is bigger than 0.5, assign it as non-fake, otherwise is fake
+        val.loc[val.predict>0.5,'plabel'] =1
+        val.loc[val.predict<=0.5,'plabel'] =0           
         #print the accuracy of logistic model
-        total=[]
-        for value in val.values:
-
-            predict = value[-1]
-            # actural
-            label = int(value[0])
- 
-            # if the value of predict is bigger than 0.5, assign it as non-fake
-            if predict > 0.5:
-                total.append(1)
-            else:
-                total.append(0)
                 
-        print(confusion_matrix(val['label'],total))
-        print(classification_report(val['label'],total))
+        print(confusion_matrix(val['label'],val['plabel']))
+        print(classification_report(val['label'],val['plabel']))
+        
+        return val
         
         
 
