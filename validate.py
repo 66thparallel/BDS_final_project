@@ -7,6 +7,7 @@ Authors: Jiajun Bao, Meng Li, Jane Liu
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
+from sklearn.metrics import classification_report, confusion_matrix
 
 class Validate:
     def __init__(self, file, ftopic, result):
@@ -45,23 +46,30 @@ class Validate:
         #create dataset for regression
         
         self._cols_to_keep=["label","length_of_review"]
+        
         for elem in self._ftopic:
             self._cols_to_keep.append(elem)
+        
         val = validate[self._cols_to_keep].join(dummy_ranks.ix[:, 'rating_2.0':])
+             
+        #change the label of fake data from -1 to 0
+        val.loc[val.label==-1,'label'] =0
+        
+        #standarized train data
+        val_cols = val.columns[1:]
+        val[val_cols]=val[val_cols].apply(lambda x: (x - np.min(x)) / (np.max(x) - np.min(x)))
         
         #add intercept
         val['intercept'] = 1.0
         
-        #change the label of fake data from -1 to 0
-        val.loc[val.label==-1,'label'] =0
-        
+        val_cols1 = val.columns[1:]
         #run the model
-        val_cols = val.columns[1:]
-        val['predict'] = self._result.predict(val[val_cols])
         
+        val['predict'] = self._result.predict(val[val_cols1])
+        
+                
         #print the accuracy of logistic model
-        total = 0
-        hit = 0
+        total=[]
         for value in val.values:
 
             predict = value[-1]
@@ -70,11 +78,13 @@ class Validate:
  
             # if the value of predict is bigger than 0.5, assign it as non-fake
             if predict > 0.5:
-                total += 1
-                 # 
-                if label == 1:
-                     hit += 1
-        print( 'Total: %d, Hit: %d, Precision: %.2f' % (total, hit, 100.0*hit/total))
+                total.append(1)
+            else:
+                total.append(0)
+                
+        print(confusion_matrix(val['label'],total))
+        print(classification_report(val['label'],total))
+        
         
 
 
