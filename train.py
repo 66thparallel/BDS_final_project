@@ -21,9 +21,10 @@ class Train:
         train=self._train.dropna()
         train=train[train['content']!="nan"]
         
-        #add the feature to Train's dataframe
+        #add the feature to train's dataframe 
         features=Feature(train,self._itopic)
         self._len,self._topicf=features.featuregenerate()
+        
         train["length_of_review"]=self._len
         
         for topic in self._topicf:
@@ -42,24 +43,32 @@ class Train:
         
         #data used to do the regression:
         self._cols_to_keep=["label","length_of_review"]
-        for elem in validate.content:
-            self._len.append(len(str(elem)))
+        
+        for elem in self._topicf:
+            self._cols_to_keep.append(elem)
         
         data = train[self._cols_to_keep].join(dummy_ranks.ix[:, 'rating_2.0':])
-        
-        #add intercept
-        data['intercept'] = 1.0
-        
-        train_cols = data.columns[1:]
         
         #change the label of fake data from -1 to 0
         data.loc[data.label==-1,'label'] =0
         
+        #train columns
+        train_cols = data.columns[1:]
+        
+        #standarized train data
+        data[train_cols]=data[train_cols].apply(lambda x: (x - np.min(x)) / (np.max(x) - np.min(x)))
+        
+        #add intercept
+        data['intercept'] = 1.0
+        
+        train_cols1 = data.columns[1:]
+
         #train the data
-        logit = sm.Logit(data['label'].astype(float), data[train_cols].astype(float))
+        logit = sm.Logit(data['label'].astype(float), data[train_cols1].astype(float))
         result = logit.fit()
         
-        return result
+        print(result.summary())
+        return data, self._topicf, result
         
 
         
