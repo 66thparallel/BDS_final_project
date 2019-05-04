@@ -30,7 +30,7 @@ def main():
     
     #validate and print the result of confusion matrix
     vali=Validate(v, topicf, result)
-    vali.valid()
+    valdata=vali.valid()
     
 main()
     
