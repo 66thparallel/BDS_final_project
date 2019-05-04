@@ -13,14 +13,15 @@ import pandas as pd
 def main():
 
     Prep = dataset('metadata.txt','reviewContent.txt')
-    tr,va,test=Prep.bdsproject_merge()
+    t,v,test=Prep.bdsproject_merge()
+    
     
     unigramtopics=["place","sandwich", "salad", "good", "food", "Greek", "lamb", "lunch", "Snack", "great", "time", "service", "friend", "chicken", "small", "delicious", "eat", "soup", "back", "table", "restaurant", "dinner", "special", "ordered", "pretty", "bite", "recommend", "make", "huge", "quick", "perfect", "wall", "fresh", "tomato", "spot", "super", "tiny", "flavor", "cozy", "roasted", "big", "Soho", "wine", "price", "meal", "ingredient", "star", "bean", "light", "greek", "favorite", "pepper", "olive", "entree", "atmosphere", "bit", "hole", "gem", "hummus", "Great", "love", "tuna", "SoHo", "authentic", "fantastic", "souvlaki", "dish", "hard", "glass", "expect", "quaint", "review", "onion", "tasty", "cold", "winter", "avgolemono", "lemony", "butter", "feel", "fan", "juicy", "oil", "Chicken", "worth", "wait", "stuffed", "decided", "find", "people", "full", "Food", "Lamb", "Good", "orzo", "pastitsio", "cute", "die", "spinach", "pie"]
     
-    Tra=Train(tr,unigramtopics)
-    result=Tra.Training()
+    Tra=Train(t,unigramtopics)
+    data,topicf,result=Tra.Training()
     
-    vali=Validate(va,topicf, result)
+    vali=Validate(v, topicf, result)
     vali.valid()
     
 main()
