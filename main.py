@@ -24,13 +24,18 @@ def main():
     lines = text_file.read().split(", ")
     unigramtopics=lines[:100]
     
-    #train the model
+    #train the logistic regression model
     Tra=Train(t,unigramtopics)
     data,topicf,result=Tra.Training()
     
-    #validate and print the result of confusion matrix
+    #test and print the result of confusion matrix
     vali=Validate(v, topicf, result)
     valdata=vali.valid()
+    
+    NNt=NN(data,valdata)
+    NNt.Training()
+
+ 
     
 main()
     
