@@ -32,6 +32,7 @@ def main():
     vali=Validate(v, topicf, result)
     valdata=vali.valid()
     
+    #use MLPClassifier of NN to train the model and get the accuracy
     NNt=NN(data,valdata)
     NNt.Training()
 
