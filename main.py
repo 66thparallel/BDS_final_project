@@ -10,8 +10,9 @@ Classes:
 import numpy as np
 import pandas as pd
 from dataset import *
-from Train import *
-from Validate import *
+from train import *
+from validate import *
+from preprocessor import *
 
 def main():
     
@@ -20,9 +21,8 @@ def main():
     t,v,test=Prep.bdsproject_merge()
     
     #read most frequent 100 topics
-    text_file = open("ngrams.txt", "r")
-    lines = text_file.read().split(", ")
-    unigramtopics=lines[:100]
+    prep_data = Preprocessor()
+    unigramtopics = prep_data.preprocess()
     
     #train the logistic regression model
     Tra=Train(t,unigramtopics)

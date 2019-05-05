@@ -58,6 +58,7 @@ class Preprocessor:
         self._cleantext = []
         self._temptext = []
         self._preprocessedlist = []
+        self._ngrams = []
 
     def preprocess(self):
 
@@ -83,7 +84,9 @@ class Preprocessor:
             for word in lemma_text:
                 self._preprocessedlist.append(word)
 
-        return self._preprocessedlist
+            self._ngrams = Unigrams(self._preprocessedlist)
+
+        return self._ngrams
 
 
 class Unigrams:
