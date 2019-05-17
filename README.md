@@ -31,6 +31,7 @@ $ source venv/bin/activate
 $ pip install -U nltk
 $ pip install -U pandas     # this should automatically install numpy
 $ pip install -U --no-deps statsmodels
+$ pip install -U sklearn
 
 This program was written in Python 3.6. It is unknown if it will work correctly for other versions of Python.
 
