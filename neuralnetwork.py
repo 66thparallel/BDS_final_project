@@ -1,3 +1,11 @@
+# coding: utf-8
+# !/usr/bin/python3
+"""
+Authors: Jiajun Bao, Meng Li, Jane Liu
+Classes:
+    NN:
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neural_network import MLPClassifier
@@ -10,7 +18,7 @@ class NN:
         self._train = train
         self._val= val
     
-    def Training(self):
+    def train(self):
 
         dataMat = np.array(self._train)
         

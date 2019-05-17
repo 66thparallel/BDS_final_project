@@ -11,7 +11,7 @@ Classes:
 import pandas as pd
 import numpy as np
 
-class dataset:
+class Dataset:
     def __init__(self, txt1,txt2):
         self._txt1 = txt1
         self._txt2 = txt2

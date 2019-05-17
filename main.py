@@ -13,29 +13,29 @@ from dataset import *
 from train import *
 from validate import *
 from preprocessor import *
+from neuralnetwork import *
 
 def main():
     
     #split the dataset to train, validate and test
-    Prep = dataset('data/metadata.txt','data/reviewContent.txt')
-    t,v,test=Prep.bdsproject_merge()
+    Prep = Dataset('data/metadata.txt','data/reviewContent.txt')
+    t,v,test = Prep.bdsproject_merge()
     
     #read most frequent 100 topics
     prep_data = Preprocessor()
     unigramtopics = prep_data.preprocess()
     
     #train the logistic regression model
-    Tra=Train(t,unigramtopics)
-    data,topicf,result=Tra.Training()
+    Tra = Train(t, unigramtopics)
+    data,topicf,result = Tra.Training()
     
     #test and print the result of confusion matrix
-    vali=Validate(v, topicf, result)
-    valdata=vali.valid()
+    vali = Validate(v, topicf, result)
+    valdata = vali.valid()
     
     #use MLPClassifier of NN to train the model and get the accuracy
-    NNt=NN(data,valdata)
-    NNt.Training()
-
+    NNt = NN(data, valdata)
+    NNt.train()
  
     
 main()

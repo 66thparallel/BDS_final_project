@@ -23,7 +23,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.util import ngrams
 
 
-# Get the top 100 1-grams
+# Get the top 100 unigrams
 class Tokenizer:
     def __init__(self, text):
         self._text = text
@@ -136,7 +136,7 @@ class Bigrams:
 
 def ngram_print(unigrams, bigrams):
 
-    # print to command line
+    # print to command line (enable if you need to see output of most frequent ngrams to console)
     [print(uni, end=", ") for uni in unigrams]
     print('\n')
     [print(bi, end=", ") for bi in bigrams]
