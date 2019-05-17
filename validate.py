@@ -2,6 +2,8 @@
 # !/usr/bin/python3
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
+Classes:
+    Validate:
 """
 
 import numpy as np

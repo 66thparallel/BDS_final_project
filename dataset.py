@@ -2,6 +2,8 @@
 # !/usr/bin/python3
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
+Classes:
+    Dataset:
 """
 
 # In[17]:
@@ -16,8 +18,6 @@ class dataset:
         self._train=pd.DataFrame()
         self._validate=pd.DataFrame()
         self._test=pd.DataFrame()
-        
-
 
     def bdsproject_merge(self):
         #merge dataset by userID
@@ -40,9 +40,9 @@ class dataset:
         #split dataset to train, validate and test and save it as csv.
         self._train, self._validate, self._test = np.split(result2.sample(frac=1), [int(.6*len(result2)), int(.8*len(result2))])
         
-        self._train.to_csv("train.csv")
-        self._validate.to_csv("validate.csv")
-        self._test.to_csv("test.csv")
+        self._train.to_csv("data/train.csv")
+        self._validate.to_csv("data/validate.csv")
+        self._test.to_csv("data/test.csv")
         
         return self._train, self._validate, self._test
 

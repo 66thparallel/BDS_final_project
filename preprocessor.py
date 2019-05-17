@@ -62,7 +62,7 @@ class Preprocessor:
 
     def preprocess(self):
 
-        with open('data/reviewContent_actual.txt', 'r') as f:
+        with open('data/reviewContent.txt', 'r') as f:
             self._reviews = f.read().split()
 
             # Tokenize the text file

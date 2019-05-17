@@ -2,6 +2,9 @@
 # !/usr/bin/python3
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
+Classes:
+    Train:
+    Feature:
 """
 
 import numpy as np
@@ -85,7 +88,7 @@ class Feature:
     def featuregenerate(self):
         #convert column content to list
         content=[]
-        content=self._train.content.tolist()
+        content=self._train.content.tsolist()
         #generate feature "length of review"
         listlen=[]
         for elem in content:
