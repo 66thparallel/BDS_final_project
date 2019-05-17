@@ -21,7 +21,7 @@ class Train:
         train=self._train.dropna()
         train=train[train['content']!="nan"]
         
-        #add the feature to train's dataframe 
+        #add the feature to the dataframe
         features=Feature(train,self._itopic)
         self._len,self._topicf=features.featuregenerate()
         

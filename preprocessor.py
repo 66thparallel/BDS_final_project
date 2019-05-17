@@ -44,7 +44,7 @@ class RemoveStopWords:
         self._stopwords = []
 
     def removestopwords(self):
-        with open('src/stopwords.txt', 'r') as g:
+        with open('data/stopwords.txt', 'r') as g:
             self._stopwords = g.read().splitlines()
         for word in self._stopwords:
             self._text = [value for value in self._text if value.lower() != word]
@@ -62,7 +62,7 @@ class Preprocessor:
 
     def preprocess(self):
 
-        with open('src/reviewContent.txt', 'r') as f:
+        with open('data/reviewContent_actual.txt', 'r') as f:
             self._reviews = f.read().split()
 
             # Tokenize the text file

@@ -17,7 +17,7 @@ from preprocessor import *
 def main():
     
     #split the dataset to train, validate and test
-    Prep = dataset('metadata.txt','reviewContent.txt')
+    Prep = dataset('data/metadata.txt','data/reviewContent_actual.txt')
     t,v,test=Prep.bdsproject_merge()
     
     #read most frequent 100 topics
