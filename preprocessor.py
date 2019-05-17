@@ -84,7 +84,8 @@ class Preprocessor:
             for word in lemma_text:
                 self._preprocessedlist.append(word)
 
-            self._ngrams = Unigrams(self._preprocessedlist)
+            unigrams = Unigrams(self._preprocessedlist)
+            self._ngrams = unigrams.get_top_unigrams()
 
         return self._ngrams
 
@@ -95,8 +96,10 @@ class Unigrams:
         self._unigrams = []
 
     def get_top_unigrams(self):
+
         # Find the most frequently occuring unigrams
         word_freq = Counter(self._topics)
+
         common_words = word_freq.most_common(100)
         dict_unigrams = dict(common_words)
 

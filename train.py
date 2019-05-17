@@ -88,7 +88,7 @@ class Feature:
     def featuregenerate(self):
         #convert column content to list
         content=[]
-        content=self._train.content.tsolist()
+        content=self._train.content.tolist()
         #generate feature "length of review"
         listlen=[]
         for elem in content:
