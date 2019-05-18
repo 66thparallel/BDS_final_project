@@ -17,7 +17,6 @@ Classes:
 
 import re
 import string
-import unittest
 from collections import Counter
 from nltk.stem import WordNetLemmatizer
 from nltk.util import ngrams

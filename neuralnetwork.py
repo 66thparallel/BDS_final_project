@@ -3,7 +3,7 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    NN:
+    NN: Accepts the preprocessed data and trains a Multilayer Perceptron (MLP) classifier. Reports the accuracy of the MLP model.
 """
 
 import numpy as np
@@ -44,5 +44,5 @@ class NN:
         X2 = scaler.transform(X2)
         
         #return the accuracy result
-        print(clf.score(X2,y2))
+        print("Neural Network accuracy score: ", clf.score(X2,y2))
         

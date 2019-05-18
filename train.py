@@ -3,8 +3,10 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    Train:
-    Feature:
+    Train: Accepts a list of most frequent topics, trains on the data.
+    Feature: Generates features, including length of reviews, calculate percentages of topics in
+        fake and real datasets, and finds 10 topic features that have a larger percentage difference
+        between real and fake reviews.
 """
 
 import numpy as np
@@ -72,10 +74,7 @@ class Train:
         
         print(result.summary())
         return data, self._topicf, result
-        
 
-        
-#generate features, including length of reviews, unigram topics
 
 class Feature:
     
@@ -131,8 +130,7 @@ class Feature:
                     count+=1
             ftopicdict[topic]=count/len(contentf)
             
-        #calculate difference value of each topic between its percentages in fake dataset and non-fake dataset
-        
+        #calculate difference value of each topic between its percentages in fake and real datasets
         topicdiff={}
         for key in topicdict:
             topicdiff[key]=topicdict[key]-ftopicdict[key]

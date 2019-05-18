@@ -13,7 +13,7 @@ from dataset import *
 from train import *
 from validate import *
 from preprocessor import *
-# from neuralnetwork import *
+from neuralnetwork import *
 
 def main():
     
@@ -21,27 +21,24 @@ def main():
     Prep = Dataset('data/metadata.txt','data/reviewContent.txt')
     t,v,test = Prep.bdsproject_merge()
     
-    # output the 200 most frequent unigrams (simple bag of words matrix)
+    # output the most frequent unigrams
     prep_data = Preprocessor()
     unigramtopics = prep_data.preprocess()
     ngram_print(unigramtopics)    # print the most frequent unigrams to ngrams.txt
-
-    # output feature extracted topics using LDA (latent dirichlet allocation)
     
     # train the logistic regression model using ngrams only
     Tra = Train(t, unigramtopics)
     data,topicf,result = Tra.Training()
-
-    # train the logistic regression model using LDA
     
     # test and print the result of confusion matrix
     vali = Validate(v, topicf, result)
     valdata = vali.valid()
     
     # use MLPClassifier of NN to train the model and get the accuracy
-    # NNt = NN(data, valdata)
-    # NNt.train()
+    NNt = NN(data, valdata)
+    NNt.train()
+
+    # classify reviews with LDA and K-Means algorithms
  
     
 main()
-    

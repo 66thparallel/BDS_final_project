@@ -3,7 +3,8 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    Validate:
+    Validate: Determines which reviews are actually real or fake reviews, generates a
+        confusion matrix and reports the accuracy of the logistic regression model.
 """
 
 import numpy as np
@@ -46,7 +47,6 @@ class Validate:
         dummy_ranks = pd.get_dummies(validate['rating'], prefix='rating')
         
         #create dataset for regression
-        
         self._cols_to_keep=["label","length_of_review"]
         
         for elem in self._ftopic:
@@ -65,8 +65,8 @@ class Validate:
         val['intercept'] = 1.0
         
         val_cols1 = val.columns[1:]
+
         #run the model
-        
         val['predict'] = self._result.predict(val[val_cols1])
         
                 

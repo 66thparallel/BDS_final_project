@@ -3,7 +3,7 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    Dataset:
+    Dataset: Merges the dataset together and splits it into a training set, test set, and validation set.
 """
 
 # In[17]:
@@ -22,7 +22,7 @@ class Dataset:
     def bdsproject_merge(self):
         #merge dataset by userID
         data = pd.read_csv(self._txt1, sep="\t", header=None)
-        data.columns = ["userID","b", "rating", "lable", "date"]
+        data.columns = ["userID","b", "rating", "label", "date"]
         data=data.drop(['b', 'date'],axis=1)
         data2 = pd.read_csv(self._txt2, sep="\t", header=None)
         data2.columns = ["userID","b", "date", "content"]
