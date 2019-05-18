@@ -37,7 +37,7 @@ class NN:
         
         #test the model
         valMat = np.array(self._val)
-        X2=valMat[:,1:-2]
+        X2=valMat[:,1:-3]
         y2 = valMat[:,0]
         scaler = StandardScaler() 
         scaler.fit(X2) 
