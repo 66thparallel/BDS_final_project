@@ -53,11 +53,14 @@ class RemoveStopWords:
 
 
 class Preprocessor:
+
     def __init__(self):
         self._reviews = []
         self._cleantext = []
         self._temptext = []
         self._preprocessedlist = []
+        self._unigrams = []
+        self._bigrams = []
         self._ngrams = []
 
     def preprocess(self):
@@ -84,8 +87,10 @@ class Preprocessor:
             for word in lemma_text:
                 self._preprocessedlist.append(word)
 
-            unigrams = Unigrams(self._preprocessedlist)
-            self._ngrams = unigrams.get_top_unigrams()
+            unitemp = Unigrams(self._preprocessedlist)
+            self._unigrams = unitemp.get_top_unigrams()
+
+            [self._ngrams.append(x) for x in self._unigrams]
 
         return self._ngrams
 
@@ -118,7 +123,7 @@ class Bigrams:
     # Find the most frequently occuring bigrams
     def get_top_bigrams(self):
 
-        # Generate 2-grams
+        # Generate bigrams
         self._output = list(ngrams(self._topics, 2))
         word_freq = Counter(self._output)
         common_words = word_freq.most_common(100)
@@ -134,23 +139,10 @@ class Bigrams:
 
         return self._bigrams
 
-def ngram_print(unigrams, bigrams):
-
-    # print to command line (enable if you need to see output of most frequent ngrams to console)
-    [print(uni, end=", ") for uni in unigrams]
-    print('\n')
-    [print(bi, end=", ") for bi in bigrams]
-    print('')
+def ngram_print(ngrams):
 
     with open('ngrams.txt', 'w') as g:
-
-        # write the top 100 unigrams to ngrams.txt
-        for item in unigrams:
+        for item in ngrams:
             g.write(str(item))
             g.write(', ')
         g.write('\n\n')
-
-        # write the top 100 bigrams to ngrams.txt
-        for item in bigrams:
-            g.write(str(item))
-            g.write(', ')

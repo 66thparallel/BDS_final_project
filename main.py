@@ -13,31 +13,35 @@ from dataset import *
 from train import *
 from validate import *
 from preprocessor import *
-from neuralnetwork import *
+# from neuralnetwork import *
 
 def main():
     
-    #split the dataset to train, validate and test
+    # split the dataset to train, validate and test
     Prep = Dataset('data/metadata.txt','data/reviewContent.txt')
     t,v,test = Prep.bdsproject_merge()
     
-    #read most frequent 100 topics
+    # output the 200 most frequent unigrams (simple bag of words matrix)
     prep_data = Preprocessor()
     unigramtopics = prep_data.preprocess()
+    ngram_print(unigramtopics)    # print the most frequent unigrams to ngrams.txt
+
+    # output feature extracted topics using LDA (latent dirichlet allocation)
     
-    #train the logistic regression model
+    # train the logistic regression model using ngrams only
     Tra = Train(t, unigramtopics)
     data,topicf,result = Tra.Training()
+
+    # train the logistic regression model using LDA
     
-    #test and print the result of confusion matrix
+    # test and print the result of confusion matrix
     vali = Validate(v, topicf, result)
     valdata = vali.valid()
     
-    #use MLPClassifier of NN to train the model and get the accuracy
-    NNt = NN(data, valdata)
-    NNt.train()
+    # use MLPClassifier of NN to train the model and get the accuracy
+    # NNt = NN(data, valdata)
+    # NNt.train()
  
     
 main()
-    
     
