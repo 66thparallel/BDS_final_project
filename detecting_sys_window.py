@@ -1,3 +1,12 @@
+# coding: utf-8
+# !/usr/bin/python3
+"""
+Authors: Jiajun Bao, Meng Li, Jane Liu
+Classes:
+    window: the detecting system window. take the review and rating as input and then give the predict value and predict label.
+"""
+
+
 from tkinter import *
 from tabulate import tabulate
 from nltk.stem import WordNetLemmatizer 

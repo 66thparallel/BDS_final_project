@@ -14,6 +14,7 @@ from train import *
 from validate import *
 from preprocessor import *
 from neuralnetwork import *
+from detecting_sys_window import *
 
 def main():
     
@@ -39,6 +40,9 @@ def main():
     NNt.train()
 
     # classify reviews with LDA and K-Means algorithms
+    
+    #run the detecting window
+    frame = MainWindow(v, topicf, result)
  
     
 main()
