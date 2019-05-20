@@ -10,6 +10,7 @@ neuralnetwork.py
 preprocessor.py
 train.py
 validate.py
+lda_knn.py
 fp.s
 /data/
     reviewContent.txt
@@ -23,7 +24,7 @@ fp.s
 REQUIREMENTS
 Please copy all files and folders into the working directory as shown above. The /data/ folder is in the same directory as main.py.
 
-The following libraries are used: nltk, numpy, pandas, sklearn, matplotlib, and statsmodels, patsy (required by statsmodels). To set up the environment cd to the working directory and enter:
+The following libraries are used: nltk, numpy, pandas, sklearn, matplotlib, gensim, statsmodels, and patsy (required by statsmodels). To set up the environment cd to the working directory and enter:
 
 $ module purge
 $ module load python3/intel/3.6.3
@@ -35,14 +36,17 @@ $ pip install -U --no-deps statsmodels
 $ pip install -U patsy      # required by statsmodels
 $ pip install -U sklearn
 $ pip install -U matplotlib
+$ pip install -U gensim
 
 This program was written in Python 3.6. It is unknown if it will work correctly for other versions of Python.
 
 
 INSTRUCTIONS
-To run this program as a batch file please enter "sbatch fp.s" (in fp.s the working directory file path needs to be updated).
+There are two programs in our project. The first program runs the logistic regression and neural network models. The second program runs the LDA and kNN models.
 
-If running from the terminal enter the virtual environment with "source venv/bin/activate" then enter "python main.py".
+To run this project as a batch file please enter "sbatch fp.s" and then enter "sbatch lda.s" (in the bash files the working directory file path needs to be updated).
+
+If running from the terminal enter the virtual environment with "source venv/bin/activate" then enter "python main.py" and "python lda_knn.py".
 
 
 EXPECTED RESULTS
