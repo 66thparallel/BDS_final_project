@@ -39,10 +39,8 @@ def main():
     NNt = NN(data, valdata)
     NNt.train()
 
-    # classify reviews with LDA and K-Means algorithms
-    
     #run the detecting window
-    frame = MainWindow(v, topicf, result)
+    # frame = MainWindow(v, topicf, result)
  
     
 main()

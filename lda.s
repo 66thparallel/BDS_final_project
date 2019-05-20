@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --time=2:00:00
 #SBATCH --mem=100GB
-#SBATCH --job-name=JB_ML_JL_finalproject
+#SBATCH --job-name=ldaknn
 #SBATCH --mail-type=END
 #SBATCH --mail-user=jl860@nyu.edu
 #SBATCH --output=slurm_%j.out
@@ -15,6 +15,6 @@ module load python3/intel/3.6.3
 
 cd /scratch/jl860/fp
 source venv/bin/activate
-python -u main.py
+python -u lda_knn.py
 
 

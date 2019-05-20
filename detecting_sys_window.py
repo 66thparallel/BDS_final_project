@@ -3,15 +3,20 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    window: the detecting system window. take the review and rating as input and then give the predict value and predict label.
+    MainWindow: The detecting system window. Take the review and rating as input and then give the
+        predict value and predict label. Please note that this deployment program does not work with
+        batch processing from a remote location (where you need to SSH to the server). The server
+        will display an error for "Display device not found". This deployment program will work
+        correctly with a desktop or laptop with sufficient memory to run the entire program. More
+        details about this limitation is available at https://github.com/Kamnitsask/deepmedic/issues/1
 """
 
 
 from tkinter import *
-from tabulate import tabulate
+from tabulate import tabulate   # need to import
 from nltk.stem import WordNetLemmatizer 
 import math
-import requests
+import requests                 # need to import
 
 #main window
 class MainWindow:

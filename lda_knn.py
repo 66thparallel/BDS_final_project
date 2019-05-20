@@ -3,10 +3,12 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    Dataset:
-    Textprocess:
+    Dataset: Takes the data files and creates equal numbers of fake and non-fake data and merges them.
+    Textprocess: Tokenizes, removes stopwords, lemmatizes the corpus.
+    Main function: calls the preprocessing methods, LDA function, and function to determine the k-nearest neighbors
 
 """
+
 import numpy as np
 import pandas as pd
 import re
@@ -24,7 +26,6 @@ from preprocessor import *
 
 
 class Dataset:
-
     def __init__(self, txt1, txt2):
         self._txt1 = txt1
         self._txt2 = txt2
@@ -32,7 +33,7 @@ class Dataset:
         self._validate = pd.DataFrame()
         self._test = pd.DataFrame()
 
-    def merge(self):
+    def bdsproject_merge(self):
         # merge dataset by userID
         data = pd.read_csv(self._txt1, sep="\t", header=None)
         data.columns = ["userID", "b", "rating", "lable", "date"]
@@ -58,19 +59,21 @@ class Dataset:
         train, validate, test = np.split(result2.sample(frac=1), [int(.6 * len(result2)), int(.8 * len(result2))])
         test = test.sample(n=10000)
         final = pd.concat([fakedata2, nfakedata2, test])
+        print(final)
 
         return final
 
+
 def textprocess(data):
-    data=data.content.values.tolist()
+    data = data.content.values.tolist()
     lemmatizer = WordNetLemmatizer()
-    wordCollect=[]
+    wordCollect = []
     for word in data:
-        word=str(word)
+        word = str(word)
         wordCollect.append(word.split())
-    collect=[]
+    collect = []
     for data in wordCollect:
-        preprocessedlist=[]
+        preprocessedlist = []
         temptext = Tokenizer(data)
         cleantext = temptext.tokenize()
         temptext = RemoveStopWords(cleantext)
@@ -86,6 +89,7 @@ def textprocess(data):
         collect.append(preprocessedlist)
     return collect
 
+
 def lda(collect):
     # dic for terms
     dictionary = corpora.Dictionary(collect)
@@ -93,131 +97,76 @@ def lda(collect):
     # DT matrix
     doc_term_matrix = [dictionary.doc2bow(doc) for doc in collect]
     return dictionary, doc_term_matrix
-    
-def Knn(a, train, k):
-    i=0
-    mi=[]
-    index=[]
-    for x in range(0,k):
-        mi.append(100)
-        index.append(0)
-    for l in train:
-        dis=dist(a,l)
-        if dis<mi[-1]:
-            mi[k-1]=dis
-            index[k-1]=i
-            j=k-1
-            while mi[j]<mi[j-1] and j>=1:
-                    temp=mi[j]
-                    mi[j]=mi[j-1]
-                    mi[j-1]=temp
-                    temp=index[j]
-                    index[j]=index[j-1]
-                    index[j-1]=temp
-                    j-=1
 
-        i+=1
-    return index
-
-def dist(a,b):
-    dis=0
-    for i in range(0,num_topic):
-        dis+=((a[i]-b[i])**2)**0.5
+def dist(a, b):
+    dis = 0
+    num_topic=5
+    for i in range(0, num_topic):
+        dis += ((a[i] - b[i]) ** 2) ** 0.5
     return dis
-
 
 
 def main():
     np.random.seed(2018)
     Lda = gensim.models.ldamodel.LdaModel
+    num_topic = 5   # number of topics selected.
+    k = 5           # k value for Knn
 
-    num_topic=5 # number of topics selected.
-    k=5  #k value for Knn
+    Prep = Dataset('data/metadata.txt', 'data/reviewContent.txt')
 
-    Prep = Dataset('data/metadata.txt','data/reviewContent.txt')
-    f=Prep.merge()
-    fc=textprocess(f)
+    f = Prep.bdsproject_merge()
+    fc = textprocess(f)
 
-    mark=f.label.values.tolist()
-    dictionary_f,corpus_f=lda(fc)
-    lda_f = Lda(corpus_f, num_topics=num_topic, id2word = dictionary_f, passes=50)
+    mark = f.label.values.tolist()
+    dictionary_f, corpus_f = lda(fc)
+    lda_f = Lda(corpus_f, num_topics=num_topic, id2word=dictionary_f, passes=50)
     topics = lda_f.show_topics()
     for topic in topics:
-        print (topic)
+        print(topic)
 
     all_topics = lda_f.get_document_topics(corpus_f, per_word_topics=True)
-    i=0
-    d_t=[]
+    i = 0
+    d_t = []
     for doc_topics, word_topics, phi_values in all_topics:
-        i+=1
+        i += 1
         d_t.append(doc_topics)
+        print('Review ' + str(i) + ' topics:', doc_topics)
 
     print(lda_f)
 
-    vec=[]
+    vec = []
     for term in d_t:
-        temp=[]
-        for i in range(0,num_topic):
+        temp = []
+        for i in range(0, num_topic):
             temp.append(0)
         for topic in term:
-            temp[int(topic[0])]=topic[1]
+            temp[int(topic[0])] = topic[1]
         vec.append(temp)
 
-    # In[2]:
-    train = vec[:20000]
-    test = vec[20000:]
-    i = 20000
-    tf = 0
-    tt = 0
-    ft = 0
-    ff = 0
-    for term in test:
-        best = Knn(term, train, k)
-        for index in best:
-            count_t = 0
-            count_f = 0
-            if mark[index] == -1:
-                count_f += 1
-            else:
-                count_t += 1
-        if count_f > count_t:
-            r = -1
-        else:
-            r = 1
-        if r == mark[i]:
-            print(True)
-            if r == 1:
-                tt += 1
-            else:
-                ff += 1
-        else:
-            print(False, best[0], best[1], best[2], r)
-            if r == 1:
-                tf += 1
-            else:
-                ft += 1
-        i += 1
 
-    # In[3]:
-    # tt
-    # tf
-    # ff
-    # ft
+    def Knn(a, train, k):
+        i = 0
+        mi = []
+        index = []
+        for x in range(0, k):
+            mi.append(100)
+            index.append(0)
+        for l in train:
+            dis = dist(a, l)
+            if dis < mi[-1]:
+                mi[k - 1] = dis
+                index[k - 1] = i
+                j = k - 1
+                while mi[j] < mi[j - 1] and j >= 1:
+                    temp = mi[j]
+                    mi[j] = mi[j - 1]
+                    mi[j - 1] = temp
+                    temp = index[j]
+                    index[j] = index[j - 1]
+                    index[j - 1] = temp
+                    j -= 1
 
-    # In[4]:
-    # tt
-
-    # In[5]:
-    # tf
-
-    # In[6]:
-    # ff
-
-    # In[7]:
-    # ft
-
-    # In[8]:
-    print((tt + ff) / (ft + tf + tt + ff))
+            i += 1
+        return index
 
 main()
-
