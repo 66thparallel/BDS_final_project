@@ -44,9 +44,12 @@ This program was written in Python 3.6. It is unknown if it will work correctly 
 
 INSTRUCTIONS
 1. There are two programs in our project. The first program runs the logistic regression and neural network models. The second program runs the LDA and kNN models.
-2. To run this project as a batch file please enter "sbatch fp.s" and then enter "sbatch lda.s" (in the bash files the working directory file path needs to be updated).
-3. If running from the server enter the virtual environment with "source venv/bin/activate" then enter "python main.py" and "python lda_knn.py".
-4. Our program for deployment (detecting_sys_window.py) allows a user to input an unknown review and obtain a result (fake or non-fake). It does not work when the project is run as a batch process. The program can be run on a local machine with sufficient memory (simply uncomment the last two lines of code in main.py and type "python main.py").
+
+2. To run this project as a batch file please enter "sbatch fp.s" and then enter "sbatch lda.s" (in the bash files the working directory file path needs to be updated). fp.s is for the logistic regression and neural network model and lda.s is for the LDA and kNN model.
+
+3. If running from the terminal enter the virtual environment then enter "python main.py" and "python lda_knn.py".
+
+4. Our program for deployment (detecting_sys_window.py) allows a user to input an unknown review and obtain a result (fake or non-fake). It does not work when the project is run as a batch process on Prince. The program can be run from the terminal on a local machine with sufficient memory (simply uncomment the last two lines of code in main.py and type "python main.py").
 
 
 EXPECTED RESULTS
@@ -101,4 +104,8 @@ weighted avg       0.71      0.70      0.70     41843
 
 
 Neural Network accuracy score: 0.7076452453217982
+
+LDA and kNN: 
+LdaModel(num_terms=57215, num_topics=5, decay=0.5, chunksize=2000) 0.6061
+
 
