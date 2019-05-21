@@ -3,21 +3,47 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    Dataset: Merges the dataset together and splits it into a training set, test set, and validation set.
+    Dataset: Explore the data, merge the datasets and split it into a training set, test set, and validation set.
 """
 
 # In[17]:
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 class Dataset:
+
     def __init__(self, txt1,txt2):
         self._txt1 = txt1
         self._txt2 = txt2
         self._train=pd.DataFrame()
         self._validate=pd.DataFrame()
         self._test=pd.DataFrame()
+
+    def data_explore(self):
+        xpnames1 = ["userID", "b", "rating", "label", "date"]
+        xpnames2 = ["userID", "b", "date", "content"]
+        xpdata1 = pd.read_csv(self._txt1, sep="\t", names=xpnames1)
+        xpdata2 = pd.read_csv(self._txt2, sep="\t", names=xpnames2)
+
+        # explore metadata.txt
+        print("Exploring the metadata.txt file: \n", xpdata1.head(10))
+        print(xpdata1.describe(include="all"))
+        print("\n")
+
+        # explore reviewContent.txt
+        print("Exploring the reviewContent.txt file: \n", xpdata2.head(10))
+        print(xpdata2.describe(include="all"))
+        print("\n")
+
+        print("The distribution of Yelp review ratings:\n", xpdata1["rating"].value_counts())
+        print("\nThe number of reviewers (spammers are indicated by '-1' value):\n", xpdata1["label"].value_counts())
+        print("\n")
+
+        # Prince cluster does not generate matplotlib whisker plots and histograms
+        # xpdata1.boxplot()
+        # xpdata1.hist()
 
     def bdsproject_merge(self):
         #merge dataset by userID

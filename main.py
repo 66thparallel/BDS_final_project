@@ -3,7 +3,7 @@
 """
 Authors: Jiajun Bao, Meng Li, Jane Liu
 Classes:
-    Main: Calls relevant classes and class methods and outputs all results.
+    Main: Explore the dataset, merge the data, perform preprocessing, pass training data to the models.
 
 """
 
@@ -18,8 +18,9 @@ from detecting_sys_window import *
 
 def main():
     
-    # split the dataset to train, validate and test
+    # perform data exploration then split the data into train, validate and test sets
     Prep = Dataset('data/metadata.txt','data/reviewContent.txt')
+    Prep.data_explore()
     t,v,test = Prep.bdsproject_merge()
     
     # output the most frequent unigrams
