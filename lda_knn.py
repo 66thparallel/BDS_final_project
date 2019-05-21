@@ -6,7 +6,6 @@ Classes:
     Dataset: Takes the data files and creates equal numbers of fake and non-fake data and merges them.
     Textprocess: Tokenizes, removes stopwords, lemmatizes the corpus.
     Main function: calls the preprocessing methods, LDA function, and function to determine the k-nearest neighbors
-
 """
 
 import numpy as np
@@ -33,7 +32,7 @@ class Dataset:
         self._validate = pd.DataFrame()
         self._test = pd.DataFrame()
 
-    def merge(self):
+    def bdsproject_merge(self):
         # merge dataset by userID
         data = pd.read_csv(self._txt1, sep="\t", header=None)
         data.columns = ["userID", "b", "rating", "lable", "date"]
@@ -59,6 +58,7 @@ class Dataset:
         train, validate, test = np.split(result2.sample(frac=1), [int(.6 * len(result2)), int(.8 * len(result2))])
         test = test.sample(n=10000)
         final = pd.concat([fakedata2, nfakedata2, test])
+        print(final)
 
         return final
 
@@ -113,31 +113,23 @@ def main():
 
     Prep = Dataset('data/metadata.txt', 'data/reviewContent.txt')
 
-    f = Prep.merge()
+    f = Prep.bdsproject_merge()
     fc = textprocess(f)
 
     mark = f.label.values.tolist()
     dictionary_f, corpus_f = lda(fc)
     lda_f = Lda(corpus_f, num_topics=num_topic, id2word=dictionary_f, passes=50)
     topics = lda_f.show_topics()
-    ct = 0
-    print("A few sample rows from the document term matrix: \n")
     for topic in topics:
-        if ct<10:
-            print(topic)
-            ct+=1
+        print(topic)
 
     all_topics = lda_f.get_document_topics(corpus_f, per_word_topics=True)
     i = 0
     d_t = []
-    ct = 0
-    print("LDA topics: \n")
     for doc_topics, word_topics, phi_values in all_topics:
         i += 1
         d_t.append(doc_topics)
-        if ct<10:
-            print('Review ' + str(i) + ' topics:', doc_topics)
-            ct+=1
+        print('Review ' + str(i) + ' topics:', doc_topics)
 
     print(lda_f)
 
