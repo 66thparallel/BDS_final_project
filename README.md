@@ -13,6 +13,7 @@ validate.py
 lda_knn.py
 detecting_sys_window.py
 fp.s
+lda.s
 /data/
     reviewContent.txt
     metadata.txt
@@ -23,9 +24,9 @@ fp.s
 
 
 REQUIREMENTS
-Please copy all files and folders into the working directory as shown above. The /data/ folder is in the same directory as main.py.
+Please copy all files and folders into the working directory (shown above). The /data/ folder is in the same directory as main.py.
 
-The following libraries are used: nltk, numpy, pandas, sklearn, matplotlib, gensim, statsmodels, and patsy (required by statsmodels). To set up the environment cd to the working directory and enter:
+The following libraries are used: nltk, numpy, pandas, statsmodels, patsy (required by statsmodels), sklearn, matplotlib, gensim. To set up the environment cd to the working directory and enter:
 
 $ module purge
 $ module load python3/intel/3.6.3
@@ -43,9 +44,9 @@ This program was written in Python 3.6. It is unknown if it will work correctly 
 
 
 INSTRUCTIONS
-1. There are two programs in our project. The first program runs the logistic regression and neural network models and the second program runs the LDA and kNN models.
+1. There are two programs in our project. The first program runs the logistic regression and neural network models and the second program runs the LDA and knn models.
 
-2. To run this project as a batch file please enter "sbatch fp.s" and then enter "sbatch lda.s" (in the bash files the working directory file path needs to be updated). fp.s is for the logistic regression and neural network model and lda.s is for the LDA and kNN model.
+2. To run this project as a batch process please enter "sbatch fp.s" and then enter "sbatch lda.s" (in the bash files the working directory file path needs to be updated). fp.s is for the logistic regression and neural network model and lda.s is for the LDA and kNN model.
 
 3. If running from the terminal enter the virtual environment then enter "python main.py" and "python lda_knn.py".
 
@@ -53,8 +54,8 @@ INSTRUCTIONS
 
 
 EXPECTED RESULTS
-The logistic regression model is expected to have 65-70% accuracy.
-The neural network model is expected to have 70% accuracy.
+The logistic regression model is expected to have 70% accuracy.
+The neural network model is expected to have 71% accuracy.
 The LDA and kNN model is reported to have 60% accuracy.
 
 (expected output from slurm:)
@@ -172,7 +173,5 @@ weighted avg       0.71      0.70      0.70     41843
 
 
 Neural Network accuracy score: 0.7076452453217982
-
-LdaModel(num_terms=57215, num_topics=5, decay=0.5, chunksize=2000)
 
 

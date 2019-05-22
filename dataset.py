@@ -28,12 +28,12 @@ class Dataset:
         xpdata2 = pd.read_csv(self._txt2, sep="\t", names=xpnames2)
 
         # explore metadata.txt
-        print("Exploring the metadata.txt file: \n", xpdata1.head(10))
+        print("Exploring the metadata.txt file: \n\n(the first 10 entries of metadata.txt)\n", xpdata1.head(10))
         print(xpdata1.describe(include="all"))
         print("\n")
 
         # explore reviewContent.txt
-        print("Exploring the reviewContent.txt file: \n", xpdata2.head(10))
+        print("Exploring the reviewContent.txt file: \n\n(first 10 entries of reviewContent.txt)\n", xpdata2.head(10))
         print(xpdata2.describe(include="all"))
         print("\n")
 
