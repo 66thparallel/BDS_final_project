@@ -1,12 +1,8 @@
+#!/usr/bin/env python
 # coding: utf-8
-# !/usr/bin/python3
-"""
-Authors: Jiajun Bao, Meng Li, Jane Liu
-Classes:
-    Dataset: Takes the data files and creates equal numbers of fake and non-fake data and merges them.
-    Textprocess: Tokenizes, removes stopwords, lemmatizes the corpus.
-    Main function: calls the preprocessing methods, LDA function, and function to determine the k-nearest neighbors
-"""
+
+# In[1]:
+
 
 import numpy as np
 import pandas as pd
@@ -15,16 +11,52 @@ import string
 import unittest
 from collections import Counter
 import gensim
-from gensim import corpora
 from gensim.utils import simple_preprocess
 from gensim.parsing.preprocessing import STOPWORDS
-import nltk
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 from nltk.stem.porter import *
-from preprocessor import *
+
+np.random.seed(2018)
+
+import nltk
+
+from gensim import corpora
+
+Lda = gensim.models.ldamodel.LdaModel
+
+num_topic = 5  # number of topics selected.
+k = 5  # k value for Knn
 
 
-class Dataset:
+class Tokenizer:
+    def __init__(self, text):
+        self._text = text
+        self._tokenized_text = []
+
+    def tokenize(self):
+        # Remove punctuation, empty elements, numbers, and dates
+        pattern = re.compile('[0-9]+')
+        self._tokenized_text = [''.join(c for c in s if c not in string.punctuation) for s in self._text]
+        self._tokenized_text[:] = [word for word in self._tokenized_text if not pattern.match(word) and word != '']
+
+        return self._tokenized_text
+
+
+class RemoveStopWords:
+    def __init__(self, text):
+        self._text = text
+        self._stopwords = []
+
+    def removestopwords(self):
+        with open('data/stopwords.txt', 'r') as g:
+            self._stopwords = g.read().splitlines()
+        for word in self._stopwords:
+            self._text = [value for value in self._text if value.lower() != word]
+
+        return self._text
+
+
+class dataset:
     def __init__(self, txt1, txt2):
         self._txt1 = txt1
         self._txt2 = txt2
@@ -97,75 +129,141 @@ def lda(collect):
     doc_term_matrix = [dictionary.doc2bow(doc) for doc in collect]
     return dictionary, doc_term_matrix
 
+
+Prep = dataset('data/metadata.txt', 'data/reviewContent.txt')
+
+f = Prep.bdsproject_merge()
+fc = textprocess(f)
+
+mark = f.label.values.tolist()
+dictionary_f, corpus_f = lda(fc)
+lda_f = Lda(corpus_f, num_topics=num_topic, id2word=dictionary_f, passes=50)
+topics = lda_f.show_topics()
+for topic in topics:
+    print(topic)
+
+all_topics = lda_f.get_document_topics(corpus_f, per_word_topics=True)
+i = 0
+d_t = []
+for doc_topics, word_topics, phi_values in all_topics:
+    i += 1
+    d_t.append(doc_topics)
+    print('Review ' + str(i) + ' topics:', doc_topics)
+
+print(lda_f)
+
+vec = []
+for term in d_t:
+    temp = []
+    for i in range(0, num_topic):
+        temp.append(0)
+    for topic in term:
+        temp[int(topic[0])] = topic[1]
+    vec.append(temp)
+
+
+def Knn(a, train, k):
+    i = 0
+    mi = []
+    index = []
+    for x in range(0, k):
+        mi.append(100)
+        index.append(0)
+    for l in train:
+        dis = dist(a, l)
+        if dis < mi[-1]:
+            mi[k - 1] = dis
+            index[k - 1] = i
+            j = k - 1
+            while mi[j] < mi[j - 1] and j >= 1:
+                temp = mi[j]
+                mi[j] = mi[j - 1]
+                mi[j - 1] = temp
+                temp = index[j]
+                index[j] = index[j - 1]
+                index[j - 1] = temp
+                j -= 1
+
+        i += 1
+    return index
+
+
 def dist(a, b):
     dis = 0
-    num_topic=5
     for i in range(0, num_topic):
         dis += ((a[i] - b[i]) ** 2) ** 0.5
     return dis
 
 
-def main():
-    np.random.seed(2018)
-    Lda = gensim.models.ldamodel.LdaModel
-    num_topic = 5   # number of topics selected.
-    k = 5           # k value for Knn
-
-    Prep = Dataset('data/metadata.txt', 'data/reviewContent.txt')
-
-    f = Prep.bdsproject_merge()
-    fc = textprocess(f)
-
-    mark = f.label.values.tolist()
-    dictionary_f, corpus_f = lda(fc)
-    lda_f = Lda(corpus_f, num_topics=num_topic, id2word=dictionary_f, passes=50)
-    topics = lda_f.show_topics()
-    for topic in topics:
-        print(topic)
-
-    all_topics = lda_f.get_document_topics(corpus_f, per_word_topics=True)
-    i = 0
-    d_t = []
-    for doc_topics, word_topics, phi_values in all_topics:
-        i += 1
-        d_t.append(doc_topics)
-        print('Review ' + str(i) + ' topics:', doc_topics)
-
-    print(lda_f)
-
-    vec = []
-    for term in d_t:
-        temp = []
-        for i in range(0, num_topic):
-            temp.append(0)
-        for topic in term:
-            temp[int(topic[0])] = topic[1]
-        vec.append(temp)
+# In[2]:
 
 
-    def Knn(a, train, k):
-        i = 0
-        mi = []
-        index = []
-        for x in range(0, k):
-            mi.append(100)
-            index.append(0)
-        for l in train:
-            dis = dist(a, l)
-            if dis < mi[-1]:
-                mi[k - 1] = dis
-                index[k - 1] = i
-                j = k - 1
-                while mi[j] < mi[j - 1] and j >= 1:
-                    temp = mi[j]
-                    mi[j] = mi[j - 1]
-                    mi[j - 1] = temp
-                    temp = index[j]
-                    index[j] = index[j - 1]
-                    index[j - 1] = temp
-                    j -= 1
+train = vec[:20000]
+test = vec[20000:]
+i = 20000
+tf = 0
+tt = 0
+ft = 0
+ff = 0
+for term in test:
+    best = Knn(term, train, k)
+    for index in best:
+        count_t = 0
+        count_f = 0
+        if mark[index] == -1:
+            count_f += 1
+        else:
+            count_t += 1
+    if count_f > count_t:
+        r = -1
+    else:
+        r = 1
+    if r == mark[i]:
+        print(True)
+        if r == 1:
+            tt += 1
+        else:
+            ff += 1
+    else:
+        print(False, best[0], best[1], best[2], r)
+        if r == 1:
+            tf += 1
+        else:
+            ft += 1
+    i += 1
 
-            i += 1
-        return index
-
-main()
+# # In[3]:
+#
+#
+# tt
+# tf
+# ff
+# ft
+#
+# # In[4]:
+#
+#
+# tt
+#
+# # In[5]:
+#
+#
+# tf
+#
+# # In[6]:
+#
+#
+# ff
+#
+# # In[7]:
+#
+#
+# ft
+#
+# # In[8]:
+#
+#
+print((tt + ff) / (ft + tf + tt + ff))
+#
+#
+# # In[ ]:
