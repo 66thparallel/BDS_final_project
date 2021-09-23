@@ -1,29 +1,29 @@
-Final Project for CSCI-GA.3033 Big Data Science
+## Final Project for CSCI-GA.3033 Big Data Science
 Authors: Jiajun Bao, Meng Li, Jane Liu
 
 
-FILES
-main.py
-dataset.py
-train.py
-neuralnetwork.py
-preprocessor.py
-train.py
-validate.py
-lda_knn.py
-detecting_sys_window.py
-fp.s
-lda.s
-/data/
-    reviewContent.txt
-    metadata.txt
-    stopwords.txt
-    test.csv
-    train.csv
-    validate.csv
+### FILES
+main.py  
+dataset.py  
+train.py  
+neuralnetwork.py  
+preprocessor.py  
+train.py  
+validate.py  
+lda_knn.py  
+detecting_sys_window.py  
+fp.s  
+lda.s  
+/data/  
+    reviewContent.txt  
+    metadata.txt  
+    stopwords.txt  
+    test.csv  
+    train.csv  
+    validate.csv  
 
 
-REQUIREMENTS
+### REQUIREMENTS
 Please copy all files and folders into the working directory (shown above). The /data/ folder is in the same directory as main.py.
 
 The following libraries are used: nltk, numpy, pandas, statsmodels, patsy (required by statsmodels), sklearn, matplotlib, gensim. To set up the environment cd to the working directory and enter:
@@ -43,17 +43,17 @@ $ pip install -U gensim
 This program was written in Python 3.6. It is unknown if it will work correctly for other versions of Python.
 
 
-INSTRUCTIONS
-1. There are two programs in our project. The first program runs the logistic regression and neural network models and the second program runs the LDA and knn models.
+### INSTRUCTIONS
+1. There are two programs in our project. The first program runs the logistic regression and neural network models and the second program runs the LDA and knn models.  
 
-2. To run this project as a batch process please enter "sbatch fp.s" and then enter "sbatch lda.s" (in the bash files the working directory file path needs to be updated). fp.s is for the logistic regression and neural network model and lda.s is for the LDA and kNN model.
+2. To run this project as a batch process please enter "sbatch fp.s" and then enter "sbatch lda.s" (in the bash files the working directory file path needs to be updated). fp.s is for the logistic regression and neural network model and lda.s is for the LDA and kNN model.  
 
-3. If running from the terminal enter the virtual environment then enter "python main.py" and "python lda_knn.py".
+3. If running from the terminal enter the virtual environment then enter "python main.py" and "python lda_knn.py".  
 
-4. Our program for deployment (detecting_sys_window.py) allows a user to input an unknown review and obtain a result (fake or non-fake). It does not work when the project is run as a batch process on Prince. The program can be run from the terminal on a local machine with sufficient memory (simply uncomment the last two lines of code in main.py and type "python main.py").
+4. Our program for deployment (detecting_sys_window.py) allows a user to input an unknown review and obtain a result (fake or non-fake). It does not work when the project is run as a batch process on Prince. The program can be run from the terminal on a local machine with sufficient memory (simply uncomment the last two lines of code in main.py and type "python main.py").  
 
 
-EXPECTED RESULTS
+### EXPECTED RESULTS
 The logistic regression model is expected to have 70% accuracy.
 The neural network model is expected to have 71% accuracy.
 The LDA and kNN model is reported to have 60% accuracy.
